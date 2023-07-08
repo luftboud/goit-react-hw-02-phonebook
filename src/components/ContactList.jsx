@@ -11,10 +11,9 @@ const ContactList = ({ filter, contacts, onDelete }) => {
               </button>
             </li>
           ))
-        : contacts.map(el => {
-            const name = el.name.toLowerCase();
-            const request = filter;
-            if (name.includes(request)) {
+        : contacts
+            .filter(el => el.name.toLowerCase().includes(filter))
+            .map(el => {
               return (
                 <li key={el.id}>
                   {el.name}: {el.number}
@@ -23,9 +22,7 @@ const ContactList = ({ filter, contacts, onDelete }) => {
                   </button>
                 </li>
               );
-            }
-            return;
-          })}
+            })}
     </ul>
   );
 };
