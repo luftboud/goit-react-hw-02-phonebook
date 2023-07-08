@@ -24,11 +24,7 @@ const ContactList = ({ filter, contacts, onDelete }) => {
                 </li>
               );
             }
-            // else {
-            //   return (
-            //     <p>You do not have {request} in your contact book yet</p>
-            //   );
-            // }
+            return;
           })}
     </ul>
   );

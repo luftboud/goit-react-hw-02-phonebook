@@ -43,7 +43,7 @@ class App extends Component {
   handleSearch = evt => {
     const value = evt.target.value;
     this.setState({ filter: value });
-    console.log(this.state);
+    // console.log(this.state);
   };
   handleDelete = evt => {
     const { id } = evt.target;
