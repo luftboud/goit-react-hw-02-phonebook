@@ -6,7 +6,10 @@ import { ContactList } from './ContactList';
 import css from './App.module.css';
 class App extends Component {
   state = {
-    contacts: [],
+    contacts: [
+      { name: 'rtyui', number: '234567', id: 'RsJ4u41qX7h8uAbppcn5K' },
+      { name: 'jhgfds', number: '23467', id: 'oZxahPKniWO70cO05yUnj' },
+    ],
     filter: '',
     name: '',
     number: '',
@@ -24,7 +27,7 @@ class App extends Component {
     // console.log(isAdded);
     if (isAdded === undefined) {
       if (this.state.name === '' || this.state.number === '') {
-        window.alert("Please, fill all fields.");
+        window.alert('Please, fill all fields.');
       } else {
         this.contactsArr.push({
           name: this.state.name,
@@ -32,6 +35,7 @@ class App extends Component {
           id: nanoid(),
         });
         this.setState({ contacts: this.contactsArr });
+        evt.currentTarget.reset();
         // console.log(this.state.contacts);
       }
     } else {
@@ -42,7 +46,22 @@ class App extends Component {
   };
   handleSearch = evt => {
     const value = evt.target.value;
+    console.log(value);
     this.setState({ filter: value });
+    // setTimeout(console.log(this.state.filter), 10000)
+    console.log(this.state.filter);
+    if (this.state.filter === '') {
+      console.log(this.contactsArr);
+      this.setState({ contacts: this.contactsArr });
+    } else {
+      console.log(this.state.filter);
+      const filtredArr = this.state.contacts.filter(el =>
+        el.name.toLowerCase().includes(this.state.filter)
+      );
+      this.setState({ contacts: filtredArr });
+      console.log(filtredArr);
+      console.log(this.state.contacts);
+    }
     // console.log(this.state);
   };
   handleDelete = evt => {
@@ -64,7 +83,6 @@ class App extends Component {
         <h2>Contacts</h2>
         <Filter onChange={this.handleSearch} />
         <ContactList
-          filter={this.state.filter}
           contacts={this.state.contacts}
           onDelete={this.handleDelete}
         />
