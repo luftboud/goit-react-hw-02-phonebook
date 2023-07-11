@@ -48,7 +48,6 @@ class App extends Component {
     const value = evt.target.value;
     console.log(value);
     this.setState({ filter: value });
-    // setTimeout(console.log(this.state.filter), 10000)
     console.log(this.state.filter);
     if (this.state.filter === '') {
       console.log(this.contactsArr);
