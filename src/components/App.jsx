@@ -6,10 +6,7 @@ import { ContactList } from './ContactList';
 import css from './App.module.css';
 class App extends Component {
   state = {
-    contacts: [
-      { name: 'rtyui', number: '234567', id: 'RsJ4u41qX7h8uAbppcn5K' },
-      { name: 'jhgfds', number: '23467', id: 'oZxahPKniWO70cO05yUnj' },
-    ],
+    contacts: [],
     filter: '',
     name: '',
     number: '',
@@ -19,12 +16,10 @@ class App extends Component {
     const { name } = evt.target;
     const value = evt.target.value;
     this.setState({ [name]: value });
-    // console.log(this.state);
   };
   handleSubmit = evt => {
     evt.preventDefault();
     const isAdded = this.contactsArr.find(el => el.name === this.state.name);
-    // console.log(isAdded);
     if (isAdded === undefined) {
       if (this.state.name === '' || this.state.number === '') {
         window.alert('Please, fill all fields.');
@@ -34,9 +29,9 @@ class App extends Component {
           number: this.state.number,
           id: nanoid(),
         });
+
         this.setState({ contacts: this.contactsArr });
         evt.currentTarget.reset();
-        // console.log(this.state.contacts);
       }
     } else {
       window.alert(
@@ -46,30 +41,23 @@ class App extends Component {
   };
   handleSearch = evt => {
     const value = evt.target.value;
-    console.log(value);
     this.setState({ filter: value });
-    console.log(this.state.filter);
-    if (this.state.filter === '') {
-      console.log(this.contactsArr);
-      this.setState({ contacts: this.contactsArr });
-    } else {
-      console.log(this.state.filter);
-      const filtredArr = this.state.contacts.filter(el =>
-        el.name.toLowerCase().includes(this.state.filter)
-      );
-      this.setState({ contacts: filtredArr });
-      console.log(filtredArr);
-      console.log(this.state.contacts);
-    }
-    // console.log(this.state);
   };
   handleDelete = evt => {
     const { id } = evt.target;
     const index = this.state.contacts.findIndex(el => el.id === id);
-    // console.log(index);
     this.contactsArr.splice(index, 1);
     this.setState({ contacts: this.contactsArr });
-    // console.log(this.contactsArr);
+  };
+  filterContacts = () => {
+    if (this.state.filter === '') {
+      this.contactsArr = this.state.contacts;
+    } else {
+      const filtredArr = this.state.contacts.filter(el =>
+        el.name.toLowerCase().includes(this.state.filter)
+      );
+      this.contactsArr = filtredArr;
+    }
   };
   render() {
     return (
@@ -78,11 +66,12 @@ class App extends Component {
         <ContactForm
           onSubmit={this.handleSubmit}
           onChange={this.handleChange}
-        />
+          />
         <h2>Contacts</h2>
+        {this.filterContacts()}
         <Filter onChange={this.handleSearch} />
         <ContactList
-          contacts={this.state.contacts}
+          contacts={this.contactsArr}
           onDelete={this.handleDelete}
         />
       </div>
